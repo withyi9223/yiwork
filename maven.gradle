@@ -1,0 +1,22 @@
+static def addCommonMaven(RepositoryHandler handler) {
+    // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
+    handler.maven { url 'https://maven.aliyun.com/repository/public' }
+    handler.maven { url 'https://maven.aliyun.com/repository/google' }
+    // 华为开源镜像：https://mirrors.huaweicloud.com
+    handler.maven { url 'https://repo.huaweicloud.com/repository/maven' }
+    // JitPack 远程仓库：https://jitpack.io
+    handler.maven { url 'https://jitpack.io' }
+    // MavenCentral 远程仓库：https://mvnrepository.com
+    handler.mavenCentral()
+    handler.google()
+    // noinspection JcenterRepositoryObsolete
+    handler.jcenter()
+    // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
+    handler.maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    // 配置Mob Maven库
+    handler.maven {
+        url "https://mvn.mob.com/android"
+    }
+}
+
+ext.addCommonMaven = this.&addCommonMaven

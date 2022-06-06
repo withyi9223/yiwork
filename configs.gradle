@@ -1,0 +1,56 @@
+ext {
+    cfgs = [
+            compileSdkVersion             : 31,
+            buildToolsVersion             : "29.0.2",
+            minSdkVersion                 : 26,
+            targetSdkVersion              : 31,
+            versionCode                   : 1,   //国内版要比国外版本高一个
+            versionName                   : "1.0.0523",
+            lifecycleVersion              : "2.4.0",
+    ]
+
+    // 测试服
+    def SERVER_TYPE_TEST = "test"
+    // 正式服
+    def SERVER_TYPE_PRODUCT = "product"
+
+    def taskName = project.gradle.startParameter.taskNames[0]
+    if (taskName == null) {
+        taskName = ""
+    }
+    // 打印当前执行的任务名称
+    println "GradleLog TaskNameOutput " + taskName
+
+    def serverType = SERVER_TYPE_PRODUCT
+
+    if (taskName.endsWith("Debug")) {
+        serverType = SERVER_TYPE_TEST
+    }
+
+    // 从 Gradle 命令中读取参数配置，例如：./gradlew assembleRelease -P ServerType="test"
+    if (project.hasProperty("ServerType")) {
+        serverType = project.properties["ServerType"]
+    }
+
+    // 打印当前服务器配置
+    println "GradleLog ServerTypeOutput " + serverType
+
+   // 微信 AppId
+    WX_APP_ID = "wx1cf3bf2a1deac41f"
+  // 微信 Secret
+    WX_APP_SECRET = "8b5f1400b7d0f181c87c75588a75d3fb"
+
+    switch(serverType) {
+        case SERVER_TYPE_TEST:
+            LOG_ENABLE = true
+            BUGLY_ID = "386dc8af41"
+            HOST_URL = "http://test.blackview4g.com:8123/arpha-kids-service/api/"
+            //HOST_URL = " http://kids-app.arpha.com:8123/arpha-kids-service/api/"
+            break
+        case SERVER_TYPE_PRODUCT:
+            LOG_ENABLE = false
+            BUGLY_ID = "386dc8af41"
+            HOST_URL = " http://kids-app.arpha.com:8123/arpha-kids-service/api/"
+            break
+    }
+}
