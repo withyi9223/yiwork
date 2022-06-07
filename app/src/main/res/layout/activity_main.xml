@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="hello" />
 
-      
 
         <TextView
             android:id="@+id/tv_hello_world"

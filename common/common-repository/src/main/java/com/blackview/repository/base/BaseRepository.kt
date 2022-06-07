@@ -45,19 +45,21 @@ abstract class BaseRepository {
             emit(StartResponse())
             block()
         }.onSuccess {
-            when (it.code) {
-                0, 200 -> {
-                    if (it.data == null) {
-                        emit(EmptyResponse())
-                    } else {
-                        emit(SuccessResponse(it.data!!))
+            emit(
+                when (it.code) {
+                    0, 200 -> {
+                        if (it.data == null) {
+                            EmptyResponse()
+                        } else {
+                            SuccessResponse(it.data!!)
+                        }
+                    }
+                    else -> {
+                        L.e("网络错误")
+                        FailureResponse(ExceptionHandle.handleException(Throwable("网络错误")))
                     }
                 }
-                else -> {
-                    L.e("网络错误")
-                    emit(FailureResponse(ExceptionHandle.handleException(Throwable("网络错误"))))
-                }
-            }
+            )
 
         }.onFailure {
             //失败回调
